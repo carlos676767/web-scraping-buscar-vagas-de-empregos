@@ -13,6 +13,8 @@
     "puppeteer": "^23.1.1"
   },
   "devDependencies": {
-    "@types/cheerio": "^0.22.35"
+    "@types/cheerio": "^0.22.35",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
   }
 }

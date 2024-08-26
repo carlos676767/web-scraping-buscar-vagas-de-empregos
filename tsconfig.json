@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES6",                         // Define o nível de ECMAScript (ES6 ou superior)
+    "module": "CommonJS",                    // Configura o módulo como CommonJS, que é o padrão para Node.js
+    "strict": true,                          // Ativa verificações de tipo estritas
+    "esModuleInterop": true,                 // Permite interoperabilidade com módulos ES6
+    "skipLibCheck": true,                    // Pula verificação de tipos em arquivos de declaração de biblioteca
+    "forceConsistentCasingInFileNames": true // Garante a consistência em nomes de arquivos
+  },
+  "include": ["src/**/*"],                   // Inclui todos os arquivos .ts na pasta src
+  "exclude": ["node_modules"]                // Exclui a pasta node_modules
+}
