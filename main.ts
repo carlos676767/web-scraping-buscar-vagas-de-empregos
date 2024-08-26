@@ -10,7 +10,7 @@ class BrowserManager {
 
   protected async openBrowser(): Promise<string | undefined> {
     try {
-      const browser = await pupper.launch({ headless: false });
+      const browser = await pupper.launch({ headless: true });
       const page = await browser.newPage();
       const valideMyUrl = BrowserManager.valideUrl(this.url);
       if (!valideMyUrl) {
@@ -27,7 +27,7 @@ class BrowserManager {
   }
 
   private static valideUrl(url: string): boolean {
-    const regex =  /^(https?:\/\/(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,})(:[0-9]+)?(\/[^\s]*)?$/i;
+    const regex = /^(https?:\/\/(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,})(:[0-9]+)?(\/[^\s]*)?$/i;
     return regex.test(url);
   }
 }
@@ -37,27 +37,27 @@ class GetVagas extends BrowserManager {
     super(url);
   }
 
-    public async getVagas() {
-      const pageBrowser = await this.openBrowser();
-      if (pageBrowser) {
-        const $ = cheerio.load(pageBrowser);
-        $("a").each((i, elemento) => {
-          const url = $(elemento).attr("href");
-          const filtradas = url ?.split(" ").filter((data) => data.startsWith("https://"));
-          if (filtradas) GetVagas.writeVacancies(filtradas)
-        });
-      }
+  public async getVagas() {
+    const pageBrowser = await this.openBrowser();
+    if (pageBrowser) {
+      const $ = cheerio.load(pageBrowser);
+      $("a").each((i, elemento) => {
+        const url = $(elemento).attr("href");
+        const filtradas = url?.split(" ").filter((data) => data.startsWith("https://"));
+        if (filtradas) GetVagas.writeVacancies(filtradas);
+        console.error("vacancies collected successfully.");
+      });
     }
+  }
 
-  private static writeVacancies(arrFilter: string[]) {
+  private static async writeVacancies(arrFilter: string[]) {
     const caminho = path.join(__dirname, "jobListings", "vagas.txt");
     arrFilter.forEach((data) => {
       fs.appendFile(caminho, data + "\n", (err) => {
         if (err) throw new Error("error when writing vacancies");
       });
     });
-    console.log("")
   }
 }
 
-new GetVagas("https://www.google.com/search?q=estagio+sorriso+mt").getVagas();
+new GetVagas("https://www.google.com/search?q=vagasdeempregos+sorriso+mt").getVagas();
